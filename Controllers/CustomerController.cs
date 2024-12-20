@@ -26,7 +26,6 @@ namespace ProjectAPI.Controllers
         {
             try
             {
-                var stopWatch = Stopwatch.StartNew();
                 var response = new GeneralResponse<CustomerDTO>
                 {
                     StatusCode = "200",
