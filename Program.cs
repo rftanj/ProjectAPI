@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using ProjectAPI.Models;
+using ProjectAPI.Services;
 
 namespace ProjectAPI
 {
@@ -18,8 +19,9 @@ namespace ProjectAPI
                     .LogTo(Console.WriteLine, LogLevel.Information)
                     .EnableSensitiveDataLogging()
                     .EnableDetailedErrors()
-                );
+            );
 
+            builder.Services.AddScoped<CustomerService>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
