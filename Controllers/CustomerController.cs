@@ -26,12 +26,26 @@ namespace ProjectAPI.Controllers
         {
             try
             {
+                var datas = _customerService.GetListCustomers();
+                if (datas.Count == 0)
+                {
+                    var responseNotFound = new GeneralResponse<CustomerDTO>
+                    {
+                        StatusCode = "404",
+                        StatusDescription = "Data not found",
+                        Data = new List<CustomerDTO>()
+                    };
+
+                    return NotFound(responseNotFound);
+                }
+
                 var response = new GeneralResponse<CustomerDTO>
                 {
                     StatusCode = "200",
                     StatusDescription = "Success",
                     Data = _customerService.GetListCustomers()
                 };
+
                 return Ok(response);
             }
             catch (Exception ex)
@@ -42,9 +56,36 @@ namespace ProjectAPI.Controllers
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                var data = _customerService.GetCustomer(id);
+                if (data.Count == 0)
+                {
+                    var responseNotFound = new GeneralResponse<CustomerDTO>
+                    {
+                        StatusCode = "404",
+                        StatusDescription = "Data not found",
+                        Data = new List<CustomerDTO>()
+                    };
+
+                    return NotFound(responseNotFound);
+                }
+
+                var response = new GeneralResponse<CustomerDTO>
+                {
+                    StatusCode = "200",
+                    StatusDescription = "Success",
+                    Data = data
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new { Message = ex.Message.ToString() });
+            }
         }
 
         // POST api/<CustomerController>
